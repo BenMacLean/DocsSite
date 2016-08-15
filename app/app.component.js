@@ -9,18 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
 var home_component_1 = require('./home/home.component');
+require('rxjs/Rx');
+var URL_CUSTOMER = 'config.json';
 var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'Jonathan';
+    function AppComponent(_http) {
+        this._http = _http;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        this.config = this.getData();
+    };
+    AppComponent.prototype.getData = function () {
+        return this._http.get('http://localhost:1337/getHtmlForFilePath/BroadsoftLabs/hubDocs/Security.md')
+            .map(function (response) { return response.json().html; });
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [home_component_1.HomeComponent]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], AppComponent);
     return AppComponent;
 }());
